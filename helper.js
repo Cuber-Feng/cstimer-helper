@@ -6,13 +6,14 @@
 // @author       Maple Feng (2017FENG35)
 // @match        https://cstimer.net/*
 // @grant        none
+// @license      MIT
 // ==/UserScript==
-
+ 
 (function() {
     'use strict';
-
+ 
     let autoOpenExport = false;
-
+ 
     function showErrorPopup() {
         const popup = document.createElement('div');
         popup.innerHTML = `
@@ -45,30 +46,30 @@
         `;
         document.body.appendChild(popup);
     }
-
+ 
     if(autoOpenExport){
         window.addEventListener('load', function() {
             const expBtn = document.querySelector('.mybutton.c2');
-
+ 
             if (expBtn) {
                 expBtn.click();
                 console.log('open expBtn successfully');
-
+ 
             } else {
                 showErrorPopup();
             }
         });
     }
-
+ 
     const isReload = performance.navigation.type === 1;
-
+ 
     if (!isReload) {
         window.addEventListener('beforeunload', function (e) {
             e.preventDefault();
             e.returnValue = '';
         });
     }
-
+ 
     // create button container
     const bar = document.createElement('div');
     bar.style.position = 'fixed';
@@ -87,7 +88,7 @@
     bar.style.fontFamily = 'sans-serif';
     bar.style.maxWidth = '90vw';
     bar.style.flexWrap = 'wrap';
-
+ 
     // create button
     function createButton(text, onClick, color = '#007bff') {
         const btn = document.createElement('button');
@@ -102,11 +103,11 @@
         btn.addEventListener('click', onClick);
         return btn;
     }
-
-
+ 
+ 
     function switchTimer(value){
         const setBtn = document.querySelector('.mybutton.c1');
-
+ 
         if (setBtn) {
             console.log('open setBtn successfully');
             setBtn.click();
@@ -118,15 +119,15 @@
                 const select = timerTr.querySelector('select[name="input"]');
                 select.value = value;
                 select.dispatchEvent(new Event('change'));
-
+ 
             }else{
                 showErrorPopup();
             }
-
+ 
         } else {
             showErrorPopup();
         }
-
+ 
         const okButton = document.querySelector('input.buttonOK[value="OK"]');
         if (okButton) okButton.click();
     };
@@ -134,17 +135,17 @@
     bar.appendChild(createButton('Timer', () => {
         switchTimer('t')
     }, '#B8001F'));
-
+ 
     // Use manual input
     bar.appendChild(createButton('Input', () => {
         switchTimer('i')
-
+ 
     }, '#006A67'));
-
+ 
     // Use bluetooth timer
     bar.appendChild(createButton('Bluetooth', () => {
         switchTimer('b')
     }, '#384B70'));
-
+ 
     document.body.appendChild(bar);
 })();
